@@ -37,7 +37,7 @@ const App = ()=> {
       });
     }
   }, [ auth ]);
-  
+
   useEffect(()=> {
     if(auth.id){
       axios.get('/api/getCart', headers())
@@ -96,10 +96,13 @@ const App = ()=> {
     });
   };
 
-  const addToCart = (productId)=> {
-    axios.post('/api/addToCart', { productId }, headers())
+  const addToCart = (productId, quantity)=> {
+    console.log("In addToCart", quantity);
+    axios.post('/api/addToCart', { productId, quantity }, headers())
     .then( response => {
       const lineItem = response.data;
+      lineItem.quantity = quantity;
+      console.log(lineItem);
       const found = lineItems.find( _lineItem => _lineItem.id === lineItem.id);
       if(!found){
         setLineItems([...lineItems, lineItem ]);
