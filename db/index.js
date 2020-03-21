@@ -45,7 +45,7 @@ const sync = async()=> {
       id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       "orderId" UUID REFERENCES orders(id) NOT NULL,
       "productId" UUID REFERENCES products(id) NOT NULL,
-      quantity INTEGER DEFAULT 1
+      quantity INTEGER DEFAULT 0
     );
   `;
   await client.query(SQL);
@@ -72,7 +72,7 @@ const sync = async()=> {
     foo: {
       name: 'foo',
       price: 2,
-      avail: 100
+      avail: 0
     },
     bar: {
       name: 'bar',
