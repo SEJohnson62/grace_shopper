@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import Products from './Products';
 
-const Product = ({ product })=> {
+const Product = ({ product, addToCart })=> {
   // Added a quantity selector
+  // Pass the quantity as a parameter to addToCart
   const [quantity, setQuantity] = useState(1);
 
   const onSubmit = (ev)=> {
