@@ -131,26 +131,35 @@ const App = ()=> {
   }
   else {
     return (
-      <div>
-        {
-          view === 'product' && <Product_details id= {params.id} />
-        }
-        {
-          !view && (
-          <div>
-            <h1>Foo, Bar, Bazz.. etc Store</h1>
-            <button onClick={ logout }>Logout { auth.username } </button>
+
+        <div>
+          <h1><a href={'#'}> Foo, Bar, Bazz.. etc Store</a></h1>
+          <button onClick={ logout }>Logout { auth.username } </button>
+
+          {
+            view === 'product' && <Product_details id= {params.id} />
+          }
+          {
+            !view && (
             <div className='horizontal'>
               <Products addToCart={ addToCart } products={ products } />
               <Cart lineItems={ lineItems } removeFromCart={ removeFromCart } cart={ cart } createOrder={ createOrder } products={ products }/>
               <Orders lineItems={ lineItems } products={ products } orders={ orders }/>
             </div>
-          </div>
-          )
-        }
-      </div>
+            )
+          }
+        </div>
     );
   }
 };
 
 export default App;
+
+
+/*
+
+        {
+          view === 'product' && <Product_details id= {params.id} />
+        }
+
+        */
