@@ -31,6 +31,7 @@ const sync = async () => {
     CREATE TABLE products(
       id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       name VARCHAR(100) NOT NULL UNIQUE,
+      description VARCHAR(999),
       price DECIMAL NOT NULL,
       avail INTEGER,
       CHECK (char_length(name) > 0)
@@ -71,6 +72,7 @@ const sync = async () => {
   const _products = {
     foo: {
       name: "foo",
+      description: "I am the greatest foo in all the universe",
       price: 2,
       avail: 100,
     },
@@ -106,11 +108,11 @@ const sync = async () => {
     },
   };
 
-  const userMap = (await _users.read()).reduce((acc, user) => {
+  const userMap = (await users.read()).reduce((acc, user) => {
     acc[user.username] = user;
     return acc;
   }, {});
-  const productMap = (await _products.read()).reduce((acc, product) => {
+  const productMap = (await products.read()).reduce((acc, product) => {
     acc[product.name] = product;
     return acc;
   }, {});
