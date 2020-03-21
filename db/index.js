@@ -32,6 +32,7 @@ const sync = async()=> {
       id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       name VARCHAR(100) NOT NULL UNIQUE,
       price DECIMAL NOT NULL,
+      avail INTEGER,
       CHECK (char_length(name) > 0)
     );
     CREATE TABLE orders(
@@ -70,23 +71,27 @@ const sync = async()=> {
   const _products = {
     foo: {
       name: 'foo',
-      price: 2
+      price: 2,
+      avail: 100
     },
     bar: {
       name: 'bar',
-      price: 2
+      price: 2,
+      avail: 10
     },
     bazz: {
       name: 'bazz',
-      price: 2.50
+      price: 2.50,
+      avail: 10
     },
     quq: {
       name: 'quq',
-      price: 11.99 
+      price: 11.99,
+      avail: 10
     }
   };
   const [lucy, moe] = await Promise.all(Object.values(_users).map( user => users.create(user)));
-  const [foo, bar, bazz] = await Promise.all(Object.values(_products).map( product => products.create(product)));
+  const [foo, bar, bazz, quq] = await Promise.all(Object.values(_products).map( product => products.create(product)));
 
   const _orders = {
     moe: {

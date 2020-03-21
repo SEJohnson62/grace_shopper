@@ -1,6 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
+import Product from './Product.js';
 
 const Products = ({ products, addToCart })=> {
+
+  // TODO: Disable the addToCart button when available inventory reaches zero.
+  // TODO: Update product.avail after Create Order event
+  // Pass the quantity as a parameter to addToCart
+
   return (
     <div>
       <h2>Products</h2>
@@ -8,17 +14,7 @@ const Products = ({ products, addToCart })=> {
         {
           products.map( product => {
             return (
-              <li key={ product.id }>
-                <span>
-                { product.name }
-                </span>
-                <span>
-                ${
-                  Number(product.price).toFixed(2)
-                }
-                </span>
-                <button onClick={ ()=> addToCart(product.id)}>Add to Cart</button>
-              </li>
+              <Product key={product.id} product={ product }/>
             );
           })
         }
