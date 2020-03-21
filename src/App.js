@@ -5,6 +5,7 @@ import Login from './Login';
 import Orders from './Orders';
 import Cart from './Cart';
 import Products from './Products';
+import Product_details from './product_details';
 
 const headers = ()=> {
   const token = window.localStorage.getItem('token');
@@ -131,13 +132,22 @@ const App = ()=> {
   else {
     return (
       <div>
-        <h1>Foo, Bar, Bazz.. etc Store</h1>
-        <button onClick={ logout }>Logout { auth.username } </button>
-        <div className='horizontal'>
-          <Products addToCart={ addToCart } products={ products } />
-          <Cart lineItems={ lineItems } removeFromCart={ removeFromCart } cart={ cart } createOrder={ createOrder } products={ products }/>
-          <Orders lineItems={ lineItems } products={ products } orders={ orders }/>
-        </div>
+        {
+          view === 'product' && <Product_details id= {params.id} />
+        }
+        {
+          !view && (
+          <div>
+            <h1>Foo, Bar, Bazz.. etc Store</h1>
+            <button onClick={ logout }>Logout { auth.username } </button>
+            <div className='horizontal'>
+              <Products addToCart={ addToCart } products={ products } />
+              <Cart lineItems={ lineItems } removeFromCart={ removeFromCart } cart={ cart } createOrder={ createOrder } products={ products }/>
+              <Orders lineItems={ lineItems } products={ products } orders={ orders }/>
+            </div>
+          </div>
+          )
+        }
       </div>
     );
   }

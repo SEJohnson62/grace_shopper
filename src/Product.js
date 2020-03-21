@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import Products from './Products';
 
+
 const Product = ({ product, addToCart })=> {
   // Added a quantity selector
   // Pass the quantity as a parameter to addToCart
@@ -12,7 +13,7 @@ const Product = ({ product, addToCart })=> {
   return (
     <form onSubmit={onSubmit}>
       <li key={ product.id }>
-        <span>{ product.name }</span>
+        <span><a href={`#view=product&id=${product.id}`} >{ product.name }</a></span>
         <span>
           ${
             Number(product.price).toFixed(2)
