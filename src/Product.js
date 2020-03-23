@@ -5,7 +5,7 @@ import Products from './Products';
 const Product = ({ product, addToCart })=> {
   // Added a quantity selector
   // Pass the quantity as a parameter to addToCart
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(0);
 
   const onSubmit = (ev)=> {
     ev.preventDefault();
@@ -24,7 +24,7 @@ const Product = ({ product, addToCart })=> {
         <input value={ quantity }
           onChange={ev=> setQuantity(ev.target.value)}
           id="quantity" type="number" name="quantity"
-          min="1" max={product.avail}></input>
+          min="0" max={product.avail}></input>
         <button onClick={()=> addToCart(product.id, quantity)}>Add to Cart</
 button>
         </div>
