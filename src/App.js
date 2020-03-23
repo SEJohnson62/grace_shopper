@@ -126,19 +126,19 @@ const App = () => {
   };
 
   const { view } = params;
+  console.log(products);
 
   if (!auth.id) {
     return <Login login={login} />;
   } else {
     return (
-
-
         <div>
           <h1><a href={'#'}> Foo, Bar, Bazz.. etc Store</a></h1>
           <button onClick={ logout }>Logout { auth.username } </button>
-
           {
-            view === 'product' && <Product_details id= {params.id} />
+            view === 'product' && <Product_details product = {
+              products.filter(product=> product.id === params.id)
+            } />
           }
           {
             !view && (
@@ -149,7 +149,6 @@ const App = () => {
             </div>
             )
           }
-
         </div>
     );
   }
@@ -157,3 +156,8 @@ const App = () => {
 
 export default App;
 
+/*
+                console.log("product id:", product.id)
+                console.log(" params.id:", params.id)
+                return(product.id === params.id)
+                */
