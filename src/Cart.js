@@ -3,7 +3,7 @@ import React from 'react';
 const Cart = ({ lineItems, cart, createOrder, removeFromCart, products })=> {
   return (
     <div>
-      <h2>Cart - { cart.id && cart.id.slice(0, 4) }</h2>
+      <h2><a href={`#view=cart&id=${cart.id}`}>Cart - { cart.id && cart.id.slice(0, 4) }</a></h2>
       <button disabled={ !lineItems.find( lineItem => lineItem.orderId === cart.id )} onClick={ createOrder }>Create Order</button>
       <ul>
         {
@@ -13,7 +13,7 @@ const Cart = ({ lineItems, cart, createOrder, removeFromCart, products })=> {
               <li key={ lineItem.id }>
                 { product && product.name}
                 { ' ' }
-                <span className='quantity'>Quantity: { lineItem.quantity }</span> 
+                <span className='quantity'>Quantity: { lineItem.quantity }</span>
                 <button onClick={ ()=> removeFromCart(lineItem.id)}>Remove From Cart</button>
               </li>
             );
