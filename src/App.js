@@ -1,13 +1,16 @@
-import React, { useState, useEffect } from "react";
-import qs from "qs";
-import axios from "axios";
-import Login from "./Login";
-import Orders from "./Orders";
-import Cart from "./Cart";
-import Products from "./Products";
 
-const headers = () => {
-  const token = window.localStorage.getItem("token");
+import React, { useState, useEffect } from 'react';
+import qs from 'qs';
+import axios from 'axios';
+import Login from './Login';
+import Orders from './Orders';
+import Cart from './Cart';
+import Products from './Products';
+import Product_details from './product_details';
+
+const headers = ()=> {
+  const token = window.localStorage.getItem('token');
+
   return {
     headers: {
       authorization: token,
@@ -128,25 +131,29 @@ const App = () => {
     return <Login login={login} />;
   } else {
     return (
-      <div>
-        <h1>Foo, Bar, Bazz.. etc Store</h1>
-        <button onClick={logout}>
-          Logout {auth.firstName} {auth.lastName}{" "}
-        </button>
-        <div className="horizontal">
-          <Products addToCart={addToCart} products={products} />
-          <Cart
-            lineItems={lineItems}
-            removeFromCart={removeFromCart}
-            cart={cart}
-            createOrder={createOrder}
-            products={products}
-          />
-          <Orders lineItems={lineItems} products={products} orders={orders} />
+
+
+        <div>
+          <h1><a href={'#'}> Foo, Bar, Bazz.. etc Store</a></h1>
+          <button onClick={ logout }>Logout { auth.username } </button>
+
+          {
+            view === 'product' && <Product_details id= {params.id} />
+          }
+          {
+            !view && (
+            <div className='horizontal'>
+              <Products addToCart={ addToCart } products={ products } />
+              <Cart lineItems={ lineItems } removeFromCart={ removeFromCart } cart={ cart } createOrder={ createOrder } products={ products }/>
+              <Orders lineItems={ lineItems } products={ products } orders={ orders }/>
+            </div>
+            )
+          }
+
         </div>
-      </div>
     );
   }
 };
 
 export default App;
+
