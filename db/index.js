@@ -1,4 +1,5 @@
 const client = require("./client");
+const faker = require('faker');
 
 const { authenticate, compare, findUserFromToken, hash } = require("./auth");
 
@@ -101,10 +102,24 @@ const sync = async () => {
       avail: 10,
     },
   };
+
+  for(i =0; i<5; i++){
+    let temp_name = faker.commerce.productName();
+
+    _products[temp_name] = {
+      name: temp_name,
+      price: faker.commerce.price(),
+      avail: Math.ceil(Math.random()*10),
+      description: faker.lorem.sentences()
+    }
+  }
+
   const [lucy, moe] = await Promise.all(
     Object.values(_users).map((user) => users.create(user))
   );
-  const [foo, bar, bazz, quq] = await Promise.all(
+
+  //, t1, t2, t3, t4, t5
+  const [foo] = await Promise.all(
     Object.values(_products).map((product) => products.create(product))
   );
 
