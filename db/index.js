@@ -38,6 +38,7 @@ const sync = async () => {
       description VARCHAR(999),
       price DECIMAL NOT NULL,
       avail INTEGER,
+      image VARCHAR(999),
       CHECK (char_length(name) > 0)
     );
     CREATE TABLE orders(
@@ -105,12 +106,16 @@ const sync = async () => {
 
   for(i =0; i<5; i++){
     let temp_name = faker.commerce.productName();
+    let temp_URL = faker.image.image();
+    //let temp_URL = 'https://picsum.photos/200'
+    console.log(temp_URL)
 
     _products[temp_name] = {
       name: temp_name,
       price: faker.commerce.price(),
       avail: Math.ceil(Math.random()*10),
-      description: faker.lorem.sentences()
+      description: faker.lorem.sentences(),
+      image: temp_URL
     }
   }
 
