@@ -6,6 +6,7 @@ import Orders from "./Orders";
 import Cart from "./Cart";
 import Products from "./Products";
 import Product_details from "./product_details";
+import CreateAccount from "./CreateAccount";
 
 const headers = () => {
   const token = window.localStorage.getItem("token");
@@ -124,6 +125,16 @@ const App = () => {
     });
   };
 
+  const createAccount = async (newUser) => {
+    try {
+      const createdUser = (await axios.post("/api/users/", newUser)).data;
+      setAuth([...auth, createdUser]);
+      setError("");
+    } catch (ex) {
+      setError(ex.response.data.message);
+    }
+  };
+
   const { view } = params;
   console.log(products);
 
@@ -135,6 +146,7 @@ const App = () => {
         <h1>
           <a href={"#"}> Foo, Bar, Bazz.. etc Store</a>
         </h1>
+        <span></span>
         <button onClick={logout}>
           Logout {auth.firstName} {auth.lastName}{" "}
         </button>
@@ -142,6 +154,9 @@ const App = () => {
           <Product_details
             product={products.filter((product) => product.id === params.id)}
           />
+        )}
+        {view === "createAccount" && (
+          <CreateAccount createAccount={createAccount} />
         )}
         {!view && (
           <div className="horizontal">
