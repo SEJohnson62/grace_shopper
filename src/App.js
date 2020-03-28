@@ -109,13 +109,11 @@ const App = () => {
   };
 
   const addToCart = (productId, quantity) => {
-    console.log("In addToCart", quantity);
-    axios
-      .post("/api/addToCart", { productId, quantity }, headers())
+    // see app.js
+    axios.post("/api/addToCart", { productId, quantity }, headers())
       .then((response) => {
         const lineItem = response.data;
-        lineItem.quantity = quantity;
-        console.log(lineItem);
+        lineItem.quantity = quantity
         const found = lineItems.find(
           (_lineItem) => _lineItem.id === lineItem.id
         );
@@ -139,7 +137,6 @@ const App = () => {
   };
 
   const { view } = params;
-  console.log(params);
 
   if (!auth.id && !view) {
     //says something is wrong here with auth.id
@@ -180,9 +177,3 @@ const App = () => {
 };
 
 export default App;
-
-/*
-                console.log("product id:", product.id)
-                console.log(" params.id:", params.id)
-                return(product.id === params.id)
-                */

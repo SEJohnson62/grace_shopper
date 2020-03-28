@@ -6,7 +6,8 @@ const Product_details = (params)=>{
   console.log("inside product_detail...logging product: ", product)
   return(
     <div>
-      <h2>Product name: {product.name}</h2><br/>
+      <h2>{product.name}</h2><br/>
+      <img src ={`${product.image}`} height= '240' width= '240'/><br/>
       <b>Product id: </b>{product.id} <br/>
       <b>Product price: </b>${product.price} <br/>
       <b>Product availability: </b>{product.avail} <br/>

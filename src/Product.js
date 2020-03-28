@@ -1,12 +1,16 @@
 import React, {useState} from 'react';
 import Products from './Products';
 
-
 const Product = ({ product, addToCart })=> {
   // Added a quantity selector
   // Pass the quantity as a parameter to addToCart
   const [quantity, setQuantity] = useState(0);
 
+  const _addToCart = async() => {
+    await addToCart(product.id, quantity) //see App.js
+    //product.avail = product.avail - quantity;
+    setQuantity(0);
+  }
   const onSubmit = (ev)=> {
     ev.preventDefault();
   }
@@ -22,15 +26,15 @@ const Product = ({ product, addToCart })=> {
         <div>
         <label>Choose quantity:</label>
         <input value={ quantity }
-          onChange={ev=> setQuantity(ev.target.value)}
+          onChange={ev=> setQuantity(ev.target.value*1)}
           id="quantity" type="number" name="quantity"
           min="0" max={product.avail}></input>
-        <button onClick={()=> addToCart(product.id, quantity)}>Add to Cart</
+        <button disabled={!quantity} onClick={ _addToCart}>Add to Cart</
 button>
         </div>
       </li>
     </form>
-)
+  )
 }
 
 export default Product;
