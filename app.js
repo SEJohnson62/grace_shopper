@@ -88,7 +88,6 @@ app.post("/api/addToCart", (req, res, next) => {
   // see db/userMethods.js
   db.addToCart({ userId: req.user.id, productId: req.body.productId, quantity: req.body.quantity })
     .then((lineItem) => {
-      console.log(lineItem);
       res.send(lineItem)
     })
     .catch(next);
