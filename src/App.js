@@ -95,6 +95,7 @@ const App = () => {
   };
 
   const addToCart = (productId, quantity) => {
+    // see app.js
     axios.post("/api/addToCart", { productId, quantity }, headers())
       .then((response) => {
         const lineItem = response.data;

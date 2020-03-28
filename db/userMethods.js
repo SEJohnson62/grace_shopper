@@ -1,15 +1,15 @@
 const client = require('./client');
 
 const getCart = async(userId)=> {
-  const response = await client.query(`SELECT * FROM orders WHERE status='CART' and "userId"=$1`, [userId]); 
+  const response = await client.query(`SELECT * FROM orders WHERE status='CART' and "userId"=$1`, [userId]);
   if(response.rows.length){
-    return response.rows[0]; 
+    return response.rows[0];
   }
   return (await client.query('INSERT INTO orders ("userId") values ($1) returning *', [ userId])).rows[0];
 };
 
 const getOrders = async(userId)=> {
-  return (await client.query(`SELECT * FROM orders WHERE status <> 'CART' and "userId"=$1`, [userId])).rows; 
+  return (await client.query(`SELECT * FROM orders WHERE status <> 'CART' and "userId"=$1`, [userId])).rows;
 };
 
 const createOrder = async(userId)=> {
@@ -18,17 +18,17 @@ const createOrder = async(userId)=> {
   return (await client.query(`UPDATE orders SET status=$1 WHERE id=$2 returning *`, [ 'ORDER', cart.id ])).rows[0];
 };
 
-const addToCart = async({ productId, userId })=> {
+const addToCart = async({ productId, userId, quantity })=> {
   const cart = await getCart(userId);
   const response = await client.query(`SELECT * from "lineItems" WHERE "orderId"=$1 and "productId"=$2`, [ cart.id, productId ]);
   let lineItem;
   if(response.rows.length){
     lineItem = response.rows[0];
-    lineItem.quantity++;
+    lineItem.quantity = quantity;
     return (await client.query(`UPDATE "lineItems" set quantity=$1 WHERE id = $2 returning *`, [ lineItem.quantity, lineItem.id ])).rows[0];
   }
   else {
-    return (await client.query(`INSERT INTO "lineItems"("productId", "orderId") values ($1, $2) returning *`, [ productId, cart.id])).rows[0];
+    return (await client.query(`INSERT INTO "lineItems"("productId", "orderId", quantity) values ($1, $2, $3) returning *`, [ productId, cart.id, quantity])).rows[0];
   }
 };
 
@@ -39,10 +39,10 @@ const removeFromCart = async({ lineItemId, userId })=> {
 
 const getLineItems = async(userId)=> {
   const SQL = `
-    SELECT "lineItems".* 
+    SELECT "lineItems".*
     FROM "lineItems"
     JOIN orders
-    ON orders.id = "lineItems"."orderId" 
+    ON orders.id = "lineItems"."orderId"
     WHERE orders."userId" = $1
   `;
   return ( await client.query(SQL, [ userId ])).rows;
