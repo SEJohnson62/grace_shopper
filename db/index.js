@@ -13,6 +13,7 @@ const {
   removeFromCart,
   createOrder,
   getLineItems,
+  createAddress
 } = require("./userMethods");
 
 const sync = async () => {
@@ -22,6 +23,7 @@ const sync = async () => {
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS products;
+    DROP TABLE IF EXISTS addresses;
 
     CREATE TABLE users(
       id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -55,6 +57,12 @@ const sync = async () => {
       "productId" UUID REFERENCES products(id) NOT NULL,
       quantity INTEGER DEFAULT 0
     );
+    CREATE TABLE addresses(
+      id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      "userId" UUID REFERENCES users(id) NOT NULL,
+      address VARCHAR(100) NOT NULL
+    );
+
   `;
   await client.query(SQL);
 
@@ -164,4 +172,5 @@ module.exports = {
   removeFromCart,
   createOrder,
   getLineItems,
+  createAddress
 };
