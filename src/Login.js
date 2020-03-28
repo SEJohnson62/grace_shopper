@@ -1,21 +1,25 @@
-import React, {  useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
-const Login = ({ login })=> {
-  const [ username, setUsername ] = useState('');
-  const [ password, setPassword ] = useState('');
-  const [ error, setError ] = useState('');
-  const onSubmit = (ev)=> {
+const Login = ({ login }) => {
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const onSubmit = (ev) => {
     ev.preventDefault();
-    login({ username, password })
-      .catch(ex => setError(ex.response.data.message));
-  }
+    login({ username, password }).catch((ex) =>
+      setError(ex.response.data.message)
+    );
+  };
+
   return (
-    <form onSubmit={ onSubmit }>
+    <form onSubmit={onSubmit}>
       <h1>Login</h1>
-      <div className='error'>{ error }</div>
-      <input value={ username } onChange={ ev => setUsername(ev.target.value) } />
-      <input value={ password } onChange={ ev => setPassword(ev.target.value) } />
+      <div className="error">{error}</div>
+      <input value={username} onChange={(ev) => setUsername(ev.target.value)} />
+      <input value={password} onChange={(ev) => setPassword(ev.target.value)} />
       <button>Login</button>
+      <a href={`#view=createAccount`}>Sign Up</a>
     </form>
   );
 };

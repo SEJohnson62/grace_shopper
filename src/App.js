@@ -6,6 +6,7 @@ import Orders from "./Orders";
 import Cart from "./Cart";
 import Products from "./Products";
 import Product_details from "./product_details";
+import CreateAccount from "./CreateAccount";
 
 const headers = () => {
   const token = window.localStorage.getItem("token");
@@ -24,6 +25,7 @@ const App = () => {
   const [cart, setCart] = useState({});
   const [products, setProducts] = useState([]);
   const [lineItems, setLineItems] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     axios.get("/api/products").then((response) => setProducts(response.data));
@@ -60,12 +62,24 @@ const App = () => {
     exchangeTokenForAuth();
   };
 
+  const createAccount = async (newUser) => {
+    try {
+      const response = (await axios.post("/api/users", newUser)).data;
+      window.localStorage.setItem("token", response.token);
+      setAuth(response.user);
+      setError("");
+    } catch (ex) {
+      setError(ex.response.data.message);
+    }
+  };
+
   const exchangeTokenForAuth = async () => {
     const response = await axios.get("/api/auth", headers());
     setAuth(response.data);
   };
 
   const logout = () => {
+    window.localStorage.removeItem("token");
     window.location.hash = "#";
     setAuth({});
   };
@@ -124,14 +138,18 @@ const App = () => {
 
   const { view } = params;
 
-  if (!auth.id) {
+  if (!auth.id && !view) {
+    //says something is wrong here with auth.id
     return <Login login={login} />;
+  } else if (!auth.id && view === "createAccount") {
+    return <CreateAccount createAccount={createAccount} />;
   } else {
     return (
       <div>
         <h1>
           <a href={"#"}> Foo, Bar, Bazz.. etc Store</a>
         </h1>
+        <span></span>
         <button onClick={logout}>
           Logout {auth.firstName} {auth.lastName}{" "}
         </button>
