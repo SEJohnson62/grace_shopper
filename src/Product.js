@@ -7,7 +7,8 @@ const Product = ({ product, addToCart })=> {
   const [quantity, setQuantity] = useState(0);
 
   const _addToCart = async() => {
-    await addToCart(product.id, quantity)
+    await addToCart(product.id, quantity) //see App.js
+    //product.avail = product.avail - quantity;
     setQuantity(0);
   }
   const onSubmit = (ev)=> {

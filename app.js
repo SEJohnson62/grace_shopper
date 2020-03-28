@@ -85,8 +85,11 @@ app.get("/api/getLineItems", (req, res, next) => {
 });
 
 app.post("/api/addToCart", (req, res, next) => {
-  db.addToCart({ userId: req.user.id, productId: req.body.productId })
-    .then((lineItem) => res.send(lineItem))
+  // see db/userMethods.js
+  db.addToCart({ userId: req.user.id, productId: req.body.productId, quantity: req.body.quantity })
+    .then((lineItem) => {
+      res.send(lineItem)
+    })
     .catch(next);
 });
 

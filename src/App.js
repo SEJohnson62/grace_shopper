@@ -95,11 +95,11 @@ const App = () => {
   };
 
   const addToCart = (productId, quantity) => {
+    // see app.js
     axios.post("/api/addToCart", { productId, quantity }, headers())
       .then((response) => {
         const lineItem = response.data;
-        lineItem.quantity = quantity;
-        console.log(lineItem);
+        lineItem.quantity = quantity
         const found = lineItems.find(
           (_lineItem) => _lineItem.id === lineItem.id
         );
@@ -123,7 +123,6 @@ const App = () => {
   };
 
   const { view } = params;
-  console.log(products);
 
   if (!auth.id) {
     return <Login login={login} />;
@@ -160,9 +159,3 @@ const App = () => {
 };
 
 export default App;
-
-/*
-                console.log("product id:", product.id)
-                console.log(" params.id:", params.id)
-                return(product.id === params.id)
-                */
