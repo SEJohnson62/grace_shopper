@@ -94,12 +94,11 @@ const App = () => {
       });
   };
 
-  const addToCart = (productId, quantity) => {
+  const addToCart = (product, quantity) => {
     // see app.js
-    axios.post("/api/addToCart", { productId, quantity }, headers())
+    axios.post("/api/addToCart", { productId: product.id, quantity }, headers())
       .then((response) => {
         const lineItem = response.data;
-        lineItem.quantity = quantity
         const found = lineItems.find(
           (_lineItem) => _lineItem.id === lineItem.id
         );
@@ -111,16 +110,22 @@ const App = () => {
           );
           setLineItems(updated);
         }
+      })
+      .then(()=>{
+        axios.put("/api/products", {avail: product.avail, id: product.id}, headers());
       });
   };
 
-  const removeFromCart = (lineItemId) => {
+  const removeFromCart = (lineItemId, product) => {
     axios.delete(`/api/removeFromCart/${lineItemId}`, headers()).then(() => {
       setLineItems(
         lineItems.filter((_lineItem) => _lineItem.id !== lineItemId)
       );
-    });
-  };
+    })
+    .then(()=>{
+      axios.put("/api/products", {avail: product.avail, id: product.id}, headers());
+      });
+  };//end removeFromCart
 
   const { view } = params;
 

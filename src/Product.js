@@ -1,5 +1,4 @@
 import React, {useState} from 'react';
-import Products from './Products';
 
 const Product = ({ product, addToCart })=> {
   // Added a quantity selector
@@ -7,8 +6,8 @@ const Product = ({ product, addToCart })=> {
   const [quantity, setQuantity] = useState(0);
 
   const _addToCart = async() => {
-    await addToCart(product.id, quantity) //see App.js
-    //product.avail = product.avail - quantity;
+    product.avail = product.avail - quantity;
+    await addToCart(product, quantity) //see App.js
     setQuantity(0);
   }
   const onSubmit = (ev)=> {

@@ -106,6 +106,13 @@ app.get("/api/products", (req, res, next) => {
     .catch(next);
 });
 
+// Update products table
+app.put("/api/products", (req, res, next) => {
+  db.updateProductAvail({id: req.body.id, avail: req.body.avail})
+  .then((products) => res.send(products))
+  .catch(next);
+})
+
 Object.keys(models).forEach((key) => {
   app.get(`/api/${key}`, isLoggedIn, isAdmin, (req, res, next) => {
     models[key]
@@ -130,7 +137,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.log(err.status);
+  console.log(err.status, err.message);
   res.status(err.status || 500).send({ message: err.message });
 });
 
