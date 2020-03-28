@@ -3,19 +3,20 @@ import React, { useState, useEffect } from "react";
 const CreateAccount = ({ createAccount }) => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [userName, setUserName] = useState("");
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
   const onSubmit = (ev) => {
     ev.preventDefault();
-    createAccount({ userName })
+    createAccount({ username, firstName, lastName, password })
       .then(() => {
         setError("");
         window.location.hash = "#";
       })
       .catch((ex) => {
         setError(ex.response.data.message);
+        //says something is wrong here but when comment it out it gives a bigger error with !auth dont know why error handling doesnt work
       });
   };
   return (
@@ -25,8 +26,8 @@ const CreateAccount = ({ createAccount }) => {
         <div>{error}</div>
         <div>Username</div>
         <input
-          value={userName}
-          onChange={(ev) => setUserName(ev.target.value)}
+          value={username}
+          onChange={(ev) => setUsername(ev.target.value)}
         />
         <div>First Name</div>
         <input
@@ -49,10 +50,9 @@ const CreateAccount = ({ createAccount }) => {
         type="button"
         onClick={() => {
           window.location.hash = "#";
-          return deleteSchool(school);
         }}
       >
-        Delete School
+        Sign In
       </button>
     </div>
   );

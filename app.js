@@ -2,6 +2,7 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const db = require("./db");
+const jwt = require("jwt-simple");
 const models = db.models;
 
 app.use("/dist", express.static(path.join(__dirname, "dist")));
@@ -78,6 +79,18 @@ app.post("/api/createOrder", (req, res, next) => {
     .catch(next);
 });
 
+app.post("/api/users", async (req, res, next) => {
+  try {
+    const user = await db.models.users.create({ ...req.body, role: "USER" });
+    const token = jwt.encode({ id: user.id }, process.env.JWT);
+    delete user.password;
+    //need the delete for security purposes
+    res.send({ user, token });
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.get("/api/getLineItems", (req, res, next) => {
   db.getLineItems(req.user.id)
     .then((lineItems) => res.send(lineItems))
@@ -112,7 +125,7 @@ Object.keys(models).forEach((key) => {
   });
   app.post(`/api/${key}`, isLoggedIn, isAdmin, (req, res, next) => {
     models[key]
-      .create({ user: req.user })
+      .create(req.body)
       .then((items) => res.send(items))
       .catch(next);
   });
@@ -127,7 +140,7 @@ app.use((req, res, next) => {
 });
 
 app.use((err, req, res, next) => {
-  console.log(err.status);
+  console.log(err.status, err.message);
   res.status(err.status || 500).send({ message: err.message });
 });
 

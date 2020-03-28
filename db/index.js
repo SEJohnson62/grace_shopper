@@ -2,7 +2,8 @@ const client = require("./client");
 
 const { authenticate, compare, findUserFromToken, hash } = require("./auth");
 
-const models = ({ products, users, orders, lineItems } = require("./models"));
+const models = require("./models");
+const { products, users, orders, lineItems } = models;
 
 const {
   getCart,
@@ -20,6 +21,7 @@ const sync = async () => {
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS products;
+
     CREATE TABLE users(
       id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
       username VARCHAR(100) NOT NULL UNIQUE,
@@ -67,14 +69,14 @@ const sync = async () => {
       firstName: "Moe",
       lastName: "Durvish",
       password: "MOE",
-      role: null,
+      role: "USER",
     },
     curly: {
       username: "larry",
       firstName: "Larrold",
       lastName: "Bohannaghan",
       password: "LARRY",
-      role: null,
+      role: "USER",
     },
   };
 
@@ -83,7 +85,7 @@ const sync = async () => {
       name: "foo",
       description: "I am the greatest foo in all the universe",
       price: 2,
-      avail: 0
+      avail: 0,
     },
     bar: {
       name: "bar",
