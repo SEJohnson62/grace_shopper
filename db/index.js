@@ -13,16 +13,20 @@ const {
   removeFromCart,
   createOrder,
   getLineItems,
+  createAddress,
   updateProductAvail
+
 } = require("./userMethods");
 
 const sync = async () => {
   const SQL = `
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+    DROP TABLE IF EXISTS addresses;
     DROP TABLE IF EXISTS "lineItems";
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS products;
+
 
     CREATE TABLE users(
       id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -56,6 +60,12 @@ const sync = async () => {
       "productId" UUID REFERENCES products(id) NOT NULL,
       quantity INTEGER DEFAULT 0
     );
+    CREATE TABLE addresses(
+      id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+      "userId" UUID REFERENCES users(id) NOT NULL,
+      address VARCHAR(100) NOT NULL
+    );
+
   `;
   await client.query(SQL);
 
@@ -129,7 +139,15 @@ const sync = async () => {
     Object.values(_users).map((user) => users.create(user))
   );
 
+  
+  //, t1, t2, t3, t4, t5
+  const response = (await createAddress(moe.id, "1234 Fake St. San Francisco ca, 123456"))
+  console.log(response)
+  
+
+
   // Add _products to products table database
+
   const [foo] = await Promise.all(
     Object.values(_products).map((product) => products.create(product))
   );
@@ -171,5 +189,7 @@ module.exports = {
   removeFromCart,
   createOrder,
   getLineItems,
+  createAddress,
   updateProductAvail
+
 };
