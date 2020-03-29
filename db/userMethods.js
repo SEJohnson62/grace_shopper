@@ -48,9 +48,15 @@ const getLineItems = async(userId)=> {
   return ( await client.query(SQL, [ userId ])).rows;
 };
 
+
 const createAddress = async(userId, address)=>{
   const SQL = 'INSERT INTO addresses("userId", address) values ($1, $2) returning *'
   return((await client.query(SQL, [userId,address])).rows[0])
+}
+const updateProductAvail = async({avail, id}) => {
+  const SQL = `UPDATE products SET avail = $1 WHERE id = $2 returning *`;
+  return (await client.query(SQL, [avail, id])).rows[0];
+
 }
 
 module.exports = {
@@ -60,5 +66,6 @@ module.exports = {
   removeFromCart,
   createOrder,
   getLineItems,
-  createAddress
+  createAddress,
+  updateProductAvail
 }
