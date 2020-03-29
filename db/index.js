@@ -13,7 +13,9 @@ const {
   removeFromCart,
   createOrder,
   getLineItems,
-  createAddress
+  createAddress,
+  updateProductAvail
+
 } = require("./userMethods");
 
 const sync = async () => {
@@ -67,6 +69,7 @@ const sync = async () => {
   `;
   await client.query(SQL);
 
+  // Seed data
   const _users = {
     lucy: {
       username: "lucy",
@@ -115,6 +118,7 @@ const sync = async () => {
     },
   };
 
+  // Get data from faker
   for(i =0; i<5; i++){
     let temp_name = faker.commerce.productName();
     let temp_URL = faker.image.image();
@@ -130,6 +134,7 @@ const sync = async () => {
     }
   }
 
+  // Add _users to users table in database
   const [lucy, moe] = await Promise.all(
     Object.values(_users).map((user) => users.create(user))
   );
@@ -152,10 +157,13 @@ const sync = async () => {
     },
   };
 
+  //Read users table from database
   const userMap = (await users.read()).reduce((acc, user) => {
     acc[user.username] = user;
     return acc;
   }, {});
+
+  // Read products table from database
   const productMap = (await products.read()).reduce((acc, product) => {
     acc[product.name] = product;
     return acc;
@@ -177,5 +185,7 @@ module.exports = {
   removeFromCart,
   createOrder,
   getLineItems,
-  createAddress
+  createAddress,
+  updateProductAvail
+
 };

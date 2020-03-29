@@ -1,6 +1,11 @@
 import React from 'react';
 
 const Cart = ({ lineItems, cart, createOrder, removeFromCart, products })=> {
+
+  const _removeFromCart = async(lineItem, product) => {
+    product.avail = product.avail + lineItem.quantity;
+    await removeFromCart(lineItem.id, product) //see App.js
+  }
   return (
     <div>
       <h2><a href={`#view=cart&id=${cart.id}`}>Cart - { cart.id && cart.id.slice(0, 4) }</a></h2>
@@ -14,7 +19,7 @@ const Cart = ({ lineItems, cart, createOrder, removeFromCart, products })=> {
                 { product && product.name}
                 { ' ' }
                 <span className='quantity'>Quantity: { lineItem.quantity }</span>
-                <button onClick={ ()=> removeFromCart(lineItem.id)}>Remove From Cart</button>
+                <button onClick={ ()=> _removeFromCart(lineItem, product)}>Remove From Cart</button>
               </li>
             );
           })
