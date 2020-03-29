@@ -19,11 +19,12 @@ const {
 const sync = async () => {
   const SQL = `
     CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+    DROP TABLE IF EXISTS addresses;
     DROP TABLE IF EXISTS "lineItems";
     DROP TABLE IF EXISTS orders;
     DROP TABLE IF EXISTS users;
     DROP TABLE IF EXISTS products;
-    DROP TABLE IF EXISTS addresses;
+
 
     CREATE TABLE users(
       id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
