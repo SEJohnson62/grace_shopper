@@ -51,6 +51,7 @@ const getLineItems = async(userId)=> {
 
 const createAddress = async(userId, address)=>{
   const SQL = 'INSERT INTO addresses("userId", address) values ($1, $2) returning *'
+  console.log(`createAddress function inputs, userID: ${userId}, address: ${address}`)
   return((await client.query(SQL, [userId,address])).rows[0])
 }
 const updateProductAvail = async({avail, id}) => {

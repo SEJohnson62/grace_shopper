@@ -139,15 +139,11 @@ const sync = async () => {
     Object.values(_users).map((user) => users.create(user))
   );
 
-  
-  //, t1, t2, t3, t4, t5
+  //testing creation of address
   const response = (await createAddress(moe.id, "1234 Fake St. San Francisco ca, 123456"))
   console.log(response)
-  
 
-
-  // Add _products to products table database
-
+  //, t1, t2, t3, t4, t5
   const [foo] = await Promise.all(
     Object.values(_products).map((product) => products.create(product))
   );
