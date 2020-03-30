@@ -7,6 +7,7 @@ import Cart from "./Cart";
 import Products from "./Products";
 import Product_details from "./product_details";
 import CreateAccount from "./CreateAccount";
+import CreateAddressForm from "./CreateAddressForm";
 
 const headers = () => {
   const token = window.localStorage.getItem("token");
@@ -141,6 +142,11 @@ const App = () => {
       });
   };//end removeFromCart
 
+  const createAddress = (address)=>{
+    console.log("address in createAddress function: ", address)
+    axios.post('/api/addresses', {address}, headers())
+  }
+
   const { view } = params;
 
   if (!auth.id && !view) {
@@ -172,6 +178,8 @@ const App = () => {
               cart={cart}
               createOrder={createOrder}
               products={products}
+              CreateAddressForm ={CreateAddressForm}
+              createAddress = {createAddress}
             />
             <Orders lineItems={lineItems} products={products} orders={orders} />
           </div>
