@@ -27,6 +27,7 @@ const App = () => {
   const [products, setProducts] = useState([]);
   const [lineItems, setLineItems] = useState([]);
   const [error, setError] = useState("");
+  const [addresses, setAddresses] = useState([]);
 
   useEffect(() => {
     axios.get("/api/products").then((response) => setProducts(response.data));
@@ -55,6 +56,12 @@ const App = () => {
         setOrders(response.data);
       });
     }
+  }, [auth]);
+
+  //console.log("response.data at front end use effect for get addresses",response.data)
+  useEffect(() => {
+    axios.get("/api/addresses", headers())
+    .then((response) => setAddresses(response.data));
   }, [auth]);
 
   const login = async (credentials) => {
@@ -142,9 +149,13 @@ const App = () => {
       });
   };//end removeFromCart
 
-  const createAddress = (address)=>{
+  const createAddress = async (address)=>{
     console.log("address in createAddress function: ", address)
-    axios.post('/api/addresses', {address}, headers())
+    await axios.post('/api/addresses', {address}, headers())
+    let updatedAddresses = [...addresses, address]
+    console.log("updated addresses: ",updatedAddresses)
+    setAddresses(updatedAddresses)
+    console.log("addresses: ", addresses)
   }
 
   const { view } = params;
