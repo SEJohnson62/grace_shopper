@@ -13,8 +13,9 @@ const CreateAddressForm = ({createAddress})=>{
 
   }
   return(
-    <div>Create Address form
+    <div>
       <form onSubmit={onSubmit}>
+        Create a new address form
         <input type="text" onChange={(ev)=>setAddress(ev.target.value)}value= {address} placeholder="Enter address here"></input>
         <button>Submit Address</button>
       </form>

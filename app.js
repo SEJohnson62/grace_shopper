@@ -119,13 +119,17 @@ app.get("/api/products", (req, res, next) => {
     .catch(next);
 });
 
-
-//working on this currently
 app.post("/api/addresses", (req,res,next)=>{
   db.createAddress(req.user.id, req.body.address)
     .then(response => res.send(response))
     .catch(next)
 });
+
+//add app.get("/api/addresses")
+app.get("/api/addresses", (req,res,next)=>{
+  db.readAddresses(req.user.id)
+    .then(response => res.send(response))
+})
 
 // Update products table
 app.put("/api/products", (req, res, next) => {
