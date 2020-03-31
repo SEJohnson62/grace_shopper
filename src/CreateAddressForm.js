@@ -8,7 +8,6 @@ const CreateAddressForm = ({createAddress})=>{
 
   const onSubmit = (ev)=>{
     ev.preventDefault()
-    console.log("CreateAddressForm, onSubmit function address: ", address)
     createAddress(address)
 
   }

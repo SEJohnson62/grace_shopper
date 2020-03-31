@@ -27,7 +27,7 @@ const Product = ({ product, addToCart })=> {
         <label>Choose quantity:</label>
         <input key={ product.id } value={ quantity }
           onChange={ev=> setQuantity(ev.target.value*1)}
-          id="quantity" type="number" name="quantity"
+          id={product.id} type="number" name="quantity"
           min="0" max={product.avail}></input>
         <button disabled={!quantity} onClick={ _addToCart}>Add to Cart</
 button>
