@@ -58,11 +58,11 @@ const App = () => {
     }
   }, [auth]);
 
-  //console.log("response.data at front end use effect for get addresses",response.data)
   useEffect(() => {
     axios.get("/api/addresses", headers())
     .then((response) => setAddresses(response.data));
   }, [auth]);
+
 
   const login = async (credentials) => {
     const token = (await axios.post("/api/auth", credentials)).data.token;
@@ -150,12 +150,10 @@ const App = () => {
   };//end removeFromCart
 
   const createAddress = async (address)=>{
-    console.log("address in createAddress function: ", address)
-    await axios.post('/api/addresses', {address}, headers())
-    let updatedAddresses = [...addresses, address]
-    console.log("updated addresses: ",updatedAddresses)
-    setAddresses(updatedAddresses)
-    console.log("addresses: ", addresses)
+    const response = (await axios.post('/api/addresses', {address}, headers())).data.address;
+    const updatedAddresses = [...addresses, response];
+    setAddresses(updatedAddresses);
+    //console.log("addresses after setAddresses(updatedAddresses): ", addresses);
   }
 
   const { view } = params;
@@ -191,6 +189,7 @@ const App = () => {
               products={products}
               CreateAddressForm ={CreateAddressForm}
               createAddress = {createAddress}
+              addresses = {addresses}
             />
             <Orders lineItems={lineItems} products={products} orders={orders} />
           </div>
