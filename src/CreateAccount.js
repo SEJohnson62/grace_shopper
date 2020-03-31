@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 const CreateAccount = ({ createAccount }) => {
   const [firstName, setFirstName] = useState("");
@@ -16,7 +16,6 @@ const CreateAccount = ({ createAccount }) => {
       })
       .catch((ex) => {
         setError(ex.response.data.message);
-        //says something is wrong here but when comment it out it gives a bigger error with !auth dont know why error handling doesnt work
       });
   };
   return (
