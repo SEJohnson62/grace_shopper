@@ -130,20 +130,24 @@ const App = () => {
 
   const addToCart = (product, quantity) => {
     // see app.js
-    axios
-      .post("/api/addToCart", { productId: product.id, quantity }, headers())
+    axios.post("/api/addToCart", { productId: product.id, quantity }, headers())
       .then((response) => {
         const lineItem = response.data;
+        //console.log("In addToCart: lineItem=", lineItem);
         const found = lineItems.find(
           (_lineItem) => _lineItem.id === lineItem.id
         );
         if (!found) {
+          // a lineItem for this product for this user does NOT exist
+          // create a new lineItem
           setLineItems([...lineItems, lineItem]);
         } else {
-          const updated = lineItems.map((_lineItem) =>
+          // a lineItem already exists for this product and user
+          // update the existing lineItem
+          const updatedLineItems = lineItems.map((_lineItem) =>
             _lineItem.id === lineItem.id ? lineItem : _lineItem
           );
-          setLineItems(updated);
+          setLineItems(updatedLineItems);
         }
       })
       .then(() => {

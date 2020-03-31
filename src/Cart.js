@@ -3,7 +3,8 @@ import React, {useState} from 'react';
 const Cart = ({ lineItems, cart, createOrder, removeFromCart, products,
   CreateAddressForm, createAddress, addresses })=> {
 
-  console.log("addresses in cart:", addresses )
+  //console.log("addresses in cart:", addresses )
+  //console.log("lineItems in cart:", lineItems);
   const [selectedAddress, setSelectedAddress] = useState("");
   const onChange = (ev)=>{
     setSelectedAddress(ev.target.value);
