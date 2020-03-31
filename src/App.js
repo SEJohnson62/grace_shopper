@@ -7,6 +7,7 @@ import Cart from "./Cart";
 import Products from "./Products";
 import Product_details from "./product_details";
 import CreateAccount from "./CreateAccount";
+import AccountForm from "./AccountForm";
 
 const headers = () => {
   const token = window.localStorage.getItem("token");
@@ -73,6 +74,17 @@ const App = () => {
     }
   };
 
+  const updateAccount = async (user) => {
+    try {
+      const updated = (await axios.put(`/api/users/${user.id}`, user)).data;
+      setAuth(updated);
+      //dont know why (...auth, updated) breaks it....
+      setError("");
+    } catch (ex) {
+      setError(ex.response.data.message);
+    }
+  };
+
   const exchangeTokenForAuth = async () => {
     const response = await axios.get("/api/auth", headers());
     setAuth(response.data);
@@ -110,7 +122,8 @@ const App = () => {
 
   const addToCart = (product, quantity) => {
     // see app.js
-    axios.post("/api/addToCart", { productId: product.id, quantity }, headers())
+    axios
+      .post("/api/addToCart", { productId: product.id, quantity }, headers())
       .then((response) => {
         const lineItem = response.data;
         const found = lineItems.find(
@@ -125,21 +138,31 @@ const App = () => {
           setLineItems(updated);
         }
       })
-      .then(()=>{
-        axios.put("/api/products", {avail: product.avail, id: product.id}, headers());
+      .then(() => {
+        axios.put(
+          "/api/products",
+          { avail: product.avail, id: product.id },
+          headers()
+        );
       });
   };
 
   const removeFromCart = (lineItemId, product) => {
-    axios.delete(`/api/removeFromCart/${lineItemId}`, headers()).then(() => {
-      setLineItems(
-        lineItems.filter((_lineItem) => _lineItem.id !== lineItemId)
-      );
-    })
-    .then(()=>{
-      axios.put("/api/products", {avail: product.avail, id: product.id}, headers());
+    axios
+      .delete(`/api/removeFromCart/${lineItemId}`, headers())
+      .then(() => {
+        setLineItems(
+          lineItems.filter((_lineItem) => _lineItem.id !== lineItemId)
+        );
+      })
+      .then(() => {
+        axios.put(
+          "/api/products",
+          { avail: product.avail, id: product.id },
+          headers()
+        );
       });
-  };//end removeFromCart
+  }; //end removeFromCart
 
   const { view } = params;
 
@@ -155,13 +178,17 @@ const App = () => {
           <a href={"#"}> Foo, Bar, Bazz.. etc Store</a>
         </h1>
         <span></span>
-        <button onClick={logout}>
+        <a href={`#view=updateAccount`}>{auth.username}</a>
+        <button type="button" onClick={logout}>
           Logout {auth.firstName} {auth.lastName}{" "}
         </button>
         {view === "product" && (
           <Product_details
             product={products.filter((product) => product.id === params.id)}
           />
+        )}
+        {view === "updateAccount" && (
+          <AccountForm updateAccount={updateAccount} auth={auth} />
         )}
         {!view && (
           <div className="horizontal">
