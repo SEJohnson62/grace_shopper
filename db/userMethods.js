@@ -58,15 +58,14 @@ const readAddresses = async(userId)=>{
   let addresses = response.map(entry =>{
     return entry.address
   })
-  console.log("filtered out addresses: ", addresses)
   return addresses;
 }
 
 const createAddress = async(userId, address)=>{
   const SQL = 'INSERT INTO addresses("userId", address) values ($1, $2) returning *';
-  console.log(`createAddress function inputs, userID: ${userId}, address: ${address}`);
   return((await client.query(SQL, [userId,address])).rows[0]);
 }
+
 const updateProductAvail = async({avail, id}) => {
   const SQL = `UPDATE products SET avail = $1 WHERE id = $2 returning *`;
   return (await client.query(SQL, [avail, id])).rows[0];
