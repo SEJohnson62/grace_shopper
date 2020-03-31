@@ -13,14 +13,9 @@ const {
   removeFromCart,
   createOrder,
   getLineItems,
-<<<<<<< HEAD
-  updateProductAvail,
-=======
   createAddress,
   updateProductAvail,
-  readAddresses
-
->>>>>>> d880a3eeebae5653d64ab6b672afa9ae4d0de17f
+  readAddresses,
 } = require("./userMethods");
 
 const sync = async () => {
@@ -145,9 +140,11 @@ const sync = async () => {
   );
 
   //testing creation of address
-  let response = (await createAddress(moe.id, "1234 Fake St. San Francisco ca, 123456"))
-  response = (await createAddress(moe.id, "9876 Crunk St. Livermore ca, 90210"))
-
+  let response = await createAddress(
+    moe.id,
+    "1234 Fake St. San Francisco ca, 123456"
+  );
+  response = await createAddress(moe.id, "9876 Crunk St. Livermore ca, 90210");
 
   //, t1, t2, t3, t4, t5
   const [foo] = await Promise.all(
@@ -191,12 +188,7 @@ module.exports = {
   removeFromCart,
   createOrder,
   getLineItems,
-<<<<<<< HEAD
-  updateProductAvail,
-=======
   createAddress,
   readAddresses,
-  updateProductAvail
-
->>>>>>> d880a3eeebae5653d64ab6b672afa9ae4d0de17f
+  updateProductAvail,
 };
