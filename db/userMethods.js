@@ -23,11 +23,14 @@ const addToCart = async({ productId, userId, quantity })=> {
   const response = await client.query(`SELECT * from "lineItems" WHERE "orderId"=$1 and "productId"=$2`, [ cart.id, productId ]);
   let lineItem;
   if(response.rows.length){
+    // a lineItem for this product and user already exists
     lineItem = response.rows[0];
-    lineItem.quantity = quantity;
+    // add more of the same item
+    lineItem.quantity += quantity;
     return (await client.query(`UPDATE "lineItems" set quantity=$1 WHERE id = $2 returning *`, [ lineItem.quantity, lineItem.id ])).rows[0];
   }
   else {
+    // add a new lineItem
     return (await client.query(`INSERT INTO "lineItems"("productId", "orderId", quantity) values ($1, $2, $3) returning *`, [ productId, cart.id, quantity])).rows[0];
   }
 };

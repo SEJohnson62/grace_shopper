@@ -6,6 +6,7 @@ const Product = ({ product, addToCart })=> {
   const [quantity, setQuantity] = useState(0);
 
   const _addToCart = async() => {
+    //console.log("In _addToCart: quantity =",quantity,"product avail=",product.avail);
     product.avail = product.avail - quantity;
     await addToCart(product, quantity) //see App.js
     setQuantity(0);
@@ -24,7 +25,7 @@ const Product = ({ product, addToCart })=> {
         </span>
         <div>
         <label>Choose quantity:</label>
-        <input value={ quantity }
+        <input key={ product.id } value={ quantity }
           onChange={ev=> setQuantity(ev.target.value*1)}
           id="quantity" type="number" name="quantity"
           min="0" max={product.avail}></input>
