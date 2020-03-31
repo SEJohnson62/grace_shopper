@@ -17,6 +17,10 @@ const users = {
       ])
     ).rows[0];
   },
+  update: async ({ id, password }) => {
+    const SQL = `UPDATE users SET password = $1 WHERE id = $2 returning *`;
+    return (await client.query(SQL, [await hash(password), id])).rows[0];
+  },
 };
 
 module.exports = users;

@@ -91,6 +91,16 @@ app.post("/api/users", async (req, res, next) => {
   }
 });
 
+app.put("/api/users/:id", async (req, res, next) => {
+  try {
+    const user = await models.users.update(req.body);
+    delete user.password;
+    res.send({ user });
+  } catch (error) {
+    next(error);
+  }
+});
+
 app.get("/api/getLineItems", (req, res, next) => {
   db.getLineItems(req.user.id)
     .then((lineItems) => res.send(lineItems))
@@ -99,9 +109,13 @@ app.get("/api/getLineItems", (req, res, next) => {
 
 app.post("/api/addToCart", (req, res, next) => {
   // see db/userMethods.js
-  db.addToCart({ userId: req.user.id, productId: req.body.productId, quantity: req.body.quantity })
+  db.addToCart({
+    userId: req.user.id,
+    productId: req.body.productId,
+    quantity: req.body.quantity,
+  })
     .then((lineItem) => {
-      res.send(lineItem)
+      res.send(lineItem);
     })
     .catch(next);
 });
@@ -119,23 +133,21 @@ app.get("/api/products", (req, res, next) => {
     .catch(next);
 });
 
-app.post("/api/addresses", (req,res,next)=>{
+app.post("/api/addresses", (req, res, next) => {
   db.createAddress(req.user.id, req.body.address)
-    .then(response => res.send(response))
-    .catch(next)
+    .then((response) => res.send(response))
+    .catch(next);
 });
 
-app.get("/api/addresses", (req,res,next)=>{
-  db.readAddresses(req.user.id)
-    .then(response => res.send(response))
-})
+app.get("/api/addresses", (req, res, next) => {
+  db.readAddresses(req.user.id).then((response) => res.send(response));
+});
 
 // Update products table
 app.put("/api/products", (req, res, next) => {
-  db.updateProductAvail({id: req.body.id, avail: req.body.avail})
-  .then((products) => res.send(products))
-  .catch(next);
-
+  db.updateProductAvail({ id: req.body.id, avail: req.body.avail })
+    .then((products) => res.send(products))
+    .catch(next);
 });
 
 Object.keys(models).forEach((key) => {

@@ -1,5 +1,5 @@
 const client = require("./client");
-const faker = require('faker');
+const faker = require("faker");
 
 const { authenticate, compare, findUserFromToken, hash } = require("./auth");
 
@@ -13,10 +13,14 @@ const {
   removeFromCart,
   createOrder,
   getLineItems,
+<<<<<<< HEAD
+  updateProductAvail,
+=======
   createAddress,
   updateProductAvail,
   readAddresses
 
+>>>>>>> d880a3eeebae5653d64ab6b672afa9ae4d0de17f
 } = require("./userMethods");
 
 const sync = async () => {
@@ -120,19 +124,19 @@ const sync = async () => {
   };
 
   // Get data from faker
-  for(i =0; i<5; i++){
+  for (i = 0; i < 5; i++) {
     let temp_name = faker.commerce.productName();
     let temp_URL = faker.image.image();
     //let temp_URL = 'https://picsum.photos/200'
-    console.log(temp_URL)
+    console.log(temp_URL);
 
     _products[temp_name] = {
       name: temp_name,
       price: faker.commerce.price(),
-      avail: Math.ceil(Math.random()*10),
+      avail: Math.ceil(Math.random() * 10),
       description: faker.lorem.sentences(),
-      image: temp_URL
-    }
+      image: temp_URL,
+    };
   }
 
   // Add _users to users table in database
@@ -187,8 +191,12 @@ module.exports = {
   removeFromCart,
   createOrder,
   getLineItems,
+<<<<<<< HEAD
+  updateProductAvail,
+=======
   createAddress,
   readAddresses,
   updateProductAvail
 
+>>>>>>> d880a3eeebae5653d64ab6b672afa9ae4d0de17f
 };

@@ -60,10 +60,10 @@ const App = () => {
   }, [auth]);
 
   useEffect(() => {
-    axios.get("/api/addresses", headers())
-    .then((response) => setAddresses(response.data));
+    axios
+      .get("/api/addresses", headers())
+      .then((response) => setAddresses(response.data));
   }, [auth]);
-
 
   const login = async (credentials) => {
     const token = (await axios.post("/api/auth", credentials)).data.token;
@@ -172,12 +172,14 @@ const App = () => {
       });
   }; //end removeFromCart
 
-  const createAddress = async (address)=>{
-    const response = (await axios.post('/api/addresses', {address}, headers())).data.address;
+  const createAddress = async (address) => {
+    const response = (
+      await axios.post("/api/addresses", { address }, headers())
+    ).data.address;
     const updatedAddresses = [...addresses, response];
     setAddresses(updatedAddresses);
     //console.log("addresses after setAddresses(updatedAddresses): ", addresses);
-  }
+  };
 
   const { view } = params;
 
@@ -214,9 +216,9 @@ const App = () => {
               cart={cart}
               createOrder={createOrder}
               products={products}
-              CreateAddressForm ={CreateAddressForm}
-              createAddress = {createAddress}
-              addresses = {addresses}
+              CreateAddressForm={CreateAddressForm}
+              createAddress={createAddress}
+              addresses={addresses}
             />
             <Orders lineItems={lineItems} products={products} orders={orders} />
           </div>
