@@ -8,6 +8,7 @@ import Products from "./Products";
 import Product_details from "./product_details";
 import CreateAccount from "./CreateAccount";
 import AccountForm from "./AccountForm";
+import CreateAddressForm from "./CreateAddressForm";
 
 const headers = () => {
   const token = window.localStorage.getItem("token");
@@ -27,6 +28,7 @@ const App = () => {
   const [products, setProducts] = useState([]);
   const [lineItems, setLineItems] = useState([]);
   const [error, setError] = useState("");
+  const [addresses, setAddresses] = useState([]);
 
   useEffect(() => {
     axios.get("/api/products").then((response) => setProducts(response.data));
@@ -55,6 +57,12 @@ const App = () => {
         setOrders(response.data);
       });
     }
+  }, [auth]);
+
+  useEffect(() => {
+    axios
+      .get("/api/addresses", headers())
+      .then((response) => setAddresses(response.data));
   }, [auth]);
 
   const login = async (credentials) => {
@@ -164,6 +172,15 @@ const App = () => {
       });
   }; //end removeFromCart
 
+  const createAddress = async (address) => {
+    const response = (
+      await axios.post("/api/addresses", { address }, headers())
+    ).data.address;
+    const updatedAddresses = [...addresses, response];
+    setAddresses(updatedAddresses);
+    //console.log("addresses after setAddresses(updatedAddresses): ", addresses);
+  };
+
   const { view } = params;
 
   if (!auth.id && !view) {
@@ -199,6 +216,9 @@ const App = () => {
               cart={cart}
               createOrder={createOrder}
               products={products}
+              CreateAddressForm={CreateAddressForm}
+              createAddress={createAddress}
+              addresses={addresses}
             />
             <Orders lineItems={lineItems} products={products} orders={orders} />
           </div>
