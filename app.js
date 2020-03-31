@@ -125,7 +125,6 @@ app.post("/api/addresses", (req,res,next)=>{
     .catch(next)
 });
 
-//add app.get("/api/addresses")
 app.get("/api/addresses", (req,res,next)=>{
   db.readAddresses(req.user.id)
     .then(response => res.send(response))

@@ -51,7 +51,6 @@ const getLineItems = async(userId)=> {
 const readAddresses = async(userId)=>{
   const SQL = 'SELECT * FROM addresses WHERE "userId" = $1';
   const response = (await client.query(SQL, [userId])).rows
-  console.log("response from SQL select query: ", response)
 
   let addresses = response.map(entry =>{
     return entry.address

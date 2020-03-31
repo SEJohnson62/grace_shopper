@@ -142,9 +142,8 @@ const sync = async () => {
 
   //testing creation of address
   let response = (await createAddress(moe.id, "1234 Fake St. San Francisco ca, 123456"))
-  console.log(response)
   response = (await createAddress(moe.id, "9876 Crunk St. Livermore ca, 90210"))
-  console.log(response)
+
 
   //, t1, t2, t3, t4, t5
   const [foo] = await Promise.all(
