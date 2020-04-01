@@ -9,6 +9,7 @@ import Product_details from "./product_details";
 import CreateAccount from "./CreateAccount";
 import AccountForm from "./AccountForm";
 import CreateAddressForm from "./CreateAddressForm";
+import CartPage from "./CartPage";
 
 const headers = () => {
   const token = window.localStorage.getItem("token");
@@ -210,6 +211,18 @@ const App = () => {
         )}
         {view === "updateAccount" && (
           <AccountForm updateAccount={updateAccount} auth={auth} />
+        )}
+        {view === "cart" && (
+          <CartPage
+          lineItems={lineItems}
+          removeFromCart={removeFromCart}
+          cart={cart}
+          createOrder={createOrder}
+          products={products}
+          CreateAddressForm={CreateAddressForm}
+          createAddress={createAddress}
+          addresses={addresses}
+           />
         )}
         {!view && (
           <div className="horizontal">
